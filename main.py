@@ -22,24 +22,24 @@ async def fit(ctx, recherche : str):
     recherche = recherche.replace('.', '+')
     #cherche
     url = f'https://fitgirl-repacks.site/?s={recherche}'
-    await ctx.send(f'étape 1 : ok !')
+    await ctx.send(f'[INFO] Recherche trouver')
     page_fit = requests.get(url)
     with open('page_fit.txt', 'w', encoding='utf-8') as file:
         file.write(page_fit.text)
-    await ctx.send('étape 2 : ok !')
+    await ctx.send('[INFO] Recherche lien')
     #cherche lien de la page chercher
     with open('page_fit.txt', 'r', encoding='utf-8') as file:
         html_data = file.read()
         soup = BeautifulSoup(html_data, 'html.parser')
         lien = soup.find('a', href=lambda href: href and href.startswith(f'https://fitgirl-repacks.site/{first}'))
         if lien:
-            await ctx.send(f'étape 3 : ok !')
+            await ctx.send(f'[INFO] Lien trouver')
             url_bis = f'{lien.get("href")}'
-            await ctx.send(f'étape 4 : ok !')
+            await ctx.send(f'[INFO] Ouverture')
             page_fit_bis = requests.get(url_bis)
             with open('page_fit_bis.txt', 'w', encoding='utf-8') as file:
                 file.write(page_fit_bis.text)
-            await ctx.send('étape 5 : ok !')
+            await ctx.send('[INFO] Recherche magnet')
             with open('page_fit_bis.txt', 'r', encoding='utf-8') as file:
                 html_data = file.read()
                 soup = BeautifulSoup(html_data, 'html.parser')
@@ -64,9 +64,9 @@ async def fit(ctx, recherche : str):
                       # Supprimer le fichier après l'avoir envoyé
                       os.remove(file_name)
                 else:
-                    await ctx.send('failed !')
+                    await ctx.send('[INFO] Failed')
         else:
-            await ctx.send('étape 3 : failed !')
+            await ctx.send('[INFO] Failed')
 
 @bot.command()
 @commands.has_permissions(administrator=True)
